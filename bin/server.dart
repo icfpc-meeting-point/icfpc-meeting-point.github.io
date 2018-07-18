@@ -163,13 +163,15 @@ void main() async {
   var secure = new File("/etc/letsencrypt/live/san.itl.ua/fullchain.pem");
   var secureExists = await secure.exists();
   if (secureExists) {
+    print("Binding secure to port 2019");
     SecurityContext serverContext = new SecurityContext()
-      ..useCertificateChain('path/to/my_cert.pem')
-      ..usePrivateKey('path/to/my_key.pem');
+      ..useCertificateChain('/etc/letsencrypt/live/san.itl.ua/fullchain.pem')
+      ..usePrivateKey('/etc/letsencrypt/live/san.itl.ua/privkey.pem');
     HttpServer
         .bindSecure(InternetAddress.ANY_IP_V4, 2019, serverContext )
         .then(serverHANDLER);
   } else {
+    print("Binding insecure to port 2018");
     HttpServer
         .bind(InternetAddress.ANY_IP_V4, 2018 )
         .then(serverHANDLER);
