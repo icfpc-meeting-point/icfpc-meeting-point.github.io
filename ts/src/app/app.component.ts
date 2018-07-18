@@ -137,7 +137,8 @@ export class AppComponent {
         this.btn.nativeElement.click();
       }
     });
-    this.ws = new ReconnectingWebSocket("wss://san.itl.ua:2019");
+    //this.ws = new ReconnectingWebSocket("wss://san.itl.ua:2019");
+    this.ws = new ReconnectingWebSocket("ws://localhost:2018");
     this.ws.onmessage = (ev: MessageEvent) => {
       let d = JSON.parse(ev.data);
       // console.log("got: "+ev.data);
