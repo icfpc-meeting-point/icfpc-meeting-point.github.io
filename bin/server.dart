@@ -90,7 +90,7 @@ void main() async {
                 try {
                   String key = team["key"];
                   int created = team["created"];
-                  if (team["delete"]) {
+                  if (team["delete"] != null && team["delete"]) {
                     List<dynamic> dj = jsonDecode(data);
                     for(int i=0; i<dj.length; i++) {
                       var d1 = dj[i];
