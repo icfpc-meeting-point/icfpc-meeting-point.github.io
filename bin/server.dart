@@ -2,7 +2,6 @@ import "dart:convert";
 import 'dart:io';
 import 'dart:math';
 import 'dart:async';
-import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:crypto/crypto.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 
@@ -31,6 +30,7 @@ void main() async {
   var serverHANDLER = (server) {
 
     server.listen((HttpRequest request) {
+      print("${DateTime.now()} INCOMING WS: ${request.connectionInfo.remoteAddress.address}");
 
       WebSocketTransformer.upgrade(request).then((WebSocket ws) {
         ws.listen((stuff) {
