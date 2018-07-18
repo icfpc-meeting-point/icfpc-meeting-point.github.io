@@ -1,0 +1,56 @@
+<mat-sidenav-container>
+
+  <mat-sidenav #sidenav mode="side" [opened]="data.created != 0" style="padding-right: 1em">
+    <i class="material-icons" style="float: right; cursor: pointer; padding-top: 1em;" (click)="clearData();">
+      close
+    </i>
+    <div style="padding: 1em; max-width: 300px" class="items">
+      <div *ngIf="data.teamName" style="color: #006600; font-weight: bold">
+        {{data.teamName}}
+      </div>
+      <div>
+        <b>Contact name:</b><br>
+        {{data.contactName}}
+      </div>
+      <div>
+        <b>Contacts:</b><br>
+        {{data.contacts}}
+      </div>
+      <div *ngIf="data.teamPageURL">
+        <b>Team Page URL:</b><br>
+        <a [href]="data.teamPageURL">{{data.teamPageURL}}</a>
+      </div>
+      <div>
+        <b>Description:</b><br/>
+        {{data.description}}
+      </div>
+      <div *ngIf="data.finalStanding">
+        <b>Final standing:</b> {{data.finalStanding}}
+      </div>
+      <div *ngIf="data.writeupURL">
+        <b>Writeup URL: </b>
+        <a [href]="data.writeupURL">{{data.writeupURL}}</a>
+      </div>
+      <button #btn (click)="openDialog(inButton);" style="display: none;"></button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content style="display:flex;flex-direction: column">
+
+    <h1 style="padding-left: 10px">ICFP Contest - Meeting Point
+      <div style="float: right">
+        <button mat-button (click)="showHelp()">ABOUT</button>
+        <button mat-button (click)="showMyLocation()">MY LOCATION</button>
+      </div>
+    </h1>
+
+    <div id="mapcanvas" style="width: 99.8%; ">
+
+    </div>
+
+
+  </mat-sidenav-content>
+
+
+</mat-sidenav-container>
+

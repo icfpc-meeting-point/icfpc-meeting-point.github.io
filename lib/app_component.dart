@@ -12,10 +12,13 @@ import 'src/todo_list/todo_list_component.dart';
 
 @Component(
   selector: 'my-app',
-  styleUrls: ['app_component.css'],
+  styleUrls: ['app_component.css',
+    'package:angular_components/app_layout/layout.scss.css',
+    ],
   templateUrl: 'app_component.html',
   directives: [TodoListComponent],
 )
+
 class AppComponent implements OnInit {
   // Nothing here yet. All logic is in TodoListComponent.
 
@@ -27,7 +30,7 @@ class AppComponent implements OnInit {
   @override
   void ngOnInit() {
     try {
-      map = new m.GMap(mapDivElement, new m.MapOptions());
+      map = new m.GMap(mapDivElement, new m.MapOptions()..center=m.LatLng(0.0, 0.0)..zoom=5);
     } catch (e) {
       new Future.delayed(Duration(milliseconds: 300), ngOnInit);
       return;
@@ -37,6 +40,9 @@ class AppComponent implements OnInit {
       var marker = new m.LatLng(50+r.nextDouble()-0.5, 36+r.nextDouble()-0.5);
       m.Marker markerMe = new m.Marker(new m.MarkerOptions()..position = marker..draggable = false..map = map..label="L${i}");
     }
+    map.addListener("click", (m.Event e) {
+      window.alert("$e");
+    });
   }
 
 
