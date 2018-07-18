@@ -145,7 +145,9 @@ void main() async {
                     }
 
                   }
-                } catch (e) {
+                } catch (e, st) {
+                  print(e);
+                  print(st);
                   error = "$e";
                 }
                 if (error != null) {
