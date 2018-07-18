@@ -22,6 +22,7 @@ export class AppComponent {
   ll: google.maps.LatLng;
   inButton = () => {};
   data: TeamDialogData = AppComponent.createBlankTeamData();
+  isOpen = false;
 
   clearData() {
     this.data = AppComponent.createBlankTeamData();
@@ -126,15 +127,17 @@ export class AppComponent {
     this.map = new google.maps.Map(this.mapCanvas, {center: new google.maps.LatLng(0, 0), zoom: 2});
     this.layout();
     this.map.addListener("click", (event) => {
-      console.log(event);
-      this.ll = event.latLng;
-      console.log("clicked: this.ll="+this.ll+" event="+JSON.stringify(event));
-      this.currentData = AppComponent.createBlankTeamData();
-      this.currentData.editMode = false;
-      this.inButton = this.openEditTeamDialog;
-      this.btn.nativeElement.click();
+      if (!this.isOpen) {
+        alert("Sorry, unable to connect to backend at this time.");
+      } else {
+        this.ll = event.latLng;
+        this.currentData = AppComponent.createBlankTeamData();
+        this.currentData.editMode = false;
+        this.inButton = this.openEditTeamDialog;
+        this.btn.nativeElement.click();
+      }
     });
-    this.ws = new ReconnectingWebSocket("ws://localhost:2018")
+    this.ws = new ReconnectingWebSocket("ws://developer.itl.ua:2018");
     this.ws.onmessage = (ev: MessageEvent) => {
       let d = JSON.parse(ev.data);
       // console.log("got: "+ev.data);
@@ -170,6 +173,7 @@ export class AppComponent {
     this.ws.onopen = (ev: Event) => {
       console.log("sending hello");
       this.ws.send(JSON.stringify({request: "list_teams"}));
+      this.isOpen = true;
     }
   }
 

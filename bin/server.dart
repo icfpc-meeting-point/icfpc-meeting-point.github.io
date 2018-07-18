@@ -140,7 +140,7 @@ void main() {
     });
   });
 
-  shelf_io.serve(handler, 'localhost', 2018).then((server) {
+  shelf_io.serve(handler, '0.0.0.0', 2018).then((server) {
     try {
       data = myFile.readAsStringSync();
       list_Teams = safeResponse(data);
