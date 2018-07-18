@@ -52,17 +52,22 @@ void main() async {
                   String description = team["description"];
                   double lat = team["lat"];
                   double lng = team["lng"];
+                  String key = team["key"];
                   if ((teamName??"") == "" || (contactName??"") == "" ||  (description??"") == ""
                       || teamName.length > 100 || contactName.length > 100 || teamPageURL.length > 100 || description.length > 512) {
                     error = "Invalid data";
+                  } else if (key != null && key.length>0 && key.length != 32){
+                    error = "Key is too short";
                   } else {
+                    if (key == null || key.length == 0)
+                      key = generateKey(lat, lng);
                     var dj = jsonDecode(data);
                     var save = {"teamName": teamName, "contactName": contactName,
                       "teamPageURL": teamPageURL,
                       "contacts": contacts,
                       "description": description,
                       "lat": lat, "lng": lng,
-                      "key": generateKey(lat, lng),
+                      "key": key,
                       "created": new DateTime.now().millisecondsSinceEpoch};
                     dj.add(save);
                     data = jsonEncode(dj);

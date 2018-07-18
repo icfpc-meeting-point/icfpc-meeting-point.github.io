@@ -22,7 +22,10 @@
       </div>
       <div>
         <b>Description:</b><br/>
-        {{data.description}}
+        <div *ngFor="let d of lines(data.description)">
+          {{d}}<br/>
+        </div>
+
       </div>
       <div *ngIf="data.finalStanding">
         <b>Final standing:</b> {{data.finalStanding}}
@@ -31,6 +34,9 @@
         <b>Writeup URL: </b>
         <a [href]="data.writeupURL">{{data.writeupURL}}</a>
       </div>
+      <div >
+        <a href="javascript:" (click)="enterKey()" style="font-size: 10px; float: right">It's my team</a>
+      </div>
       <button #btn (click)="openDialog();" style="display: none;"></button>
     </div>
   </mat-sidenav>
@@ -38,9 +44,11 @@
   <mat-sidenav-content style="display:flex;flex-direction: column">
 
     <h1 style="padding-left: 10px">ICFP Contest - Meeting Point
+      <span style="font-size: 9px; color: #aaaaaa">(unofficial)</span>
       <div style="float: right">
-        <button mat-button (click)="showHelp()">ABOUT</button>
+        <button mat-button (click)="openICFPC()">ICFP CONTEST</button>
         <button mat-button (click)="showMyLocation()">MY LOCATION</button>
+        <button mat-button (click)="showHelp()">ABOUT</button>
       </div>
     </h1>
 

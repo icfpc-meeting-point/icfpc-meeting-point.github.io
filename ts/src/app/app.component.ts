@@ -61,6 +61,7 @@ export class AppComponent {
         console.log("this.ll=" + this.ll)
         d.lat = this.ll.lat();
         d.lng = this.ll.lng();
+        d.key = localStorage.getItem("icfpc-meeting-key");
         this.ws.send(JSON.stringify(d))
       }
       // this.animal = result;
@@ -137,8 +138,8 @@ export class AppComponent {
         this.btn.nativeElement.click();
       }
     });
-    //this.ws = new ReconnectingWebSocket("wss://san.itl.ua:2019");
-    this.ws = new ReconnectingWebSocket("ws://localhost:2018");
+    this.ws = new ReconnectingWebSocket("wss://san.itl.ua:2019");
+    //this.ws = new ReconnectingWebSocket("ws://localhost:2018");
     this.ws.onmessage = (ev: MessageEvent) => {
       let d = JSON.parse(ev.data);
       // console.log("got: "+ev.data);
@@ -176,6 +177,10 @@ export class AppComponent {
       this.ws.send(JSON.stringify({request: "list_teams"}));
       this.isOpen = true;
     }
+    if (localStorage.getItem("help_shown") == null) {
+      this.showHelp();
+      localStorage.setItem("help_shown","yes");
+    }
   }
 
 
@@ -188,11 +193,20 @@ export class AppComponent {
 
 
   showHelp() {
-    this.dialog.open(HelpDialog, {
+    let dialogRef = this.dialog.open(HelpDialog, {
       width: Math.min(window.innerWidth, 600)+"px"
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (null == localStorage.getItem("first_help_closed")) {
+        localStorage.setItem("first_help_closed", "yes");
+        this.showMyLocation();
+      }
     });
   }
 
+  openICFPC() {
+    document.location.assign('https://icfpcontest2018.github.io');
+  }
   showMyLocation() {
     navigator.geolocation.getCurrentPosition((position: Position) => {
       this.map.setCenter(new LatLng(position.coords.latitude, position.coords.longitude));
@@ -200,6 +214,24 @@ export class AppComponent {
     }, (err: PositionError) => {
       alert(err.message);
     });
+  }
+
+  enterKey() {
+    let key = localStorage.getItem("icfpc-meeting-key");
+    if (key == null) key = "";
+    let nk = prompt("Your key? Careful with it!", key);
+    if (nk) {
+      key = nk;
+      localStorage.setItem("icfpc-meeting-key", key);
+      this.data = AppComponent.createBlankTeamData();
+      alert('You can now edits team(s) for this key');
+    }
+
+  }
+
+  lines(l: String): Array<String> {
+    if (l == null || l.length == 0) return [];
+    return l.split("\n");
   }
 }
 
