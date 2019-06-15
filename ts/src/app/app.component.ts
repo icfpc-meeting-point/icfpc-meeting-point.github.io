@@ -139,7 +139,6 @@ export class AppComponent {
       }
     });
     this.ws = new ReconnectingWebSocket("wss://san.itl.ua:2019");
-    //this.ws = new ReconnectingWebSocket("ws://localhost:2018");
     this.ws.onmessage = (ev: MessageEvent) => {
       let d = JSON.parse(ev.data);
       // console.log("got: "+ev.data);
@@ -205,7 +204,7 @@ export class AppComponent {
   }
 
   openICFPC() {
-    document.location.assign('https://icfpcontest2018.github.io');
+    document.location.assign('https://icfpcontest2019.github.io');
   }
   showMyLocation() {
     navigator.geolocation.getCurrentPosition((position: Position) => {

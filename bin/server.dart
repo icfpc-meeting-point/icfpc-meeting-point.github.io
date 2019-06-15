@@ -57,6 +57,7 @@ void main() async {
                       || teamName.length > 100 || contactName.length > 100 || teamPageURL.length > 100 || description.length > 512) {
                     error = "Invalid data";
                   } else if (key != null && key.length>0 && key.length != 32){
+                    print("key=$key");
                     error = "Key is too short";
                   } else {
                     if (key == null || key.length == 0)
