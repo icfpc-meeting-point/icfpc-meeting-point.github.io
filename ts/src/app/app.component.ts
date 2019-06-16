@@ -219,12 +219,16 @@ export class AppComponent {
   enterKey() {
     let key = localStorage.getItem("icfpc-meeting-key");
     if (key == null) key = "";
-    let nk = prompt("Your key? Careful with it!", key);
+    let nk = prompt("Your key? Careful with it!!", key);
     if (nk) {
-      key = nk;
-      localStorage.setItem("icfpc-meeting-key", key);
-      this.data = AppComponent.createBlankTeamData();
-      alert('You can now edits team(s) for this key');
+      if (nk.length < 32) {
+        alert('Your key is too short. You must enter key provided when you created your team to be allowed editing. Key is stored in browser storage, so you may open browser used for registration and recover key from there');
+      } else {
+        key = nk;
+        localStorage.setItem("icfpc-meeting-key", key);
+        this.data = AppComponent.createBlankTeamData();
+        alert('You can now edits team(s) for this key');
+      }
     }
 
   }
